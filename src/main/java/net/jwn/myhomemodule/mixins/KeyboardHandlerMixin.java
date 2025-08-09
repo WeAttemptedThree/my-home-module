@@ -1,8 +1,11 @@
 package net.jwn.myhomemodule.mixins;
 
+import net.jwn.myhomemodule.networking.packets.ChangeDimension2C2SPacket;
+import net.jwn.myhomemodule.networking.packets.ChangeDimensionC2SPacket;
 import net.jwn.myhomemodule.util.KeyBindings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,13 +16,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class KeyboardHandlerMixin {
     @Inject(method = "keyPress", at = @At("HEAD"), cancellable = true)
     private void onKeyPress(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
-        if (key == KeyBindings.ENTER_WORLD_KEY && action == GLFW.GLFW_PRESS) {
+        if (key == KeyBindings.GLFW_KEY_F1 && action == GLFW.GLFW_PRESS) {
             boolean cHeld = GLFW.glfwGetKey(window, KeyBindings.COMMAND_KEY) == GLFW.GLFW_PRESS;
-
             if (cHeld) {
+                // ADD HERE
                 Minecraft mc = Minecraft.getInstance();
                 if (mc.player != null) {
-                    mc.player.displayClientMessage(Component.literal("C + F1 detected!"), false);
+                    mc.player.sendSystemMessage(Component.literal("C + F1"));
+                    PacketDistributor.sendToServer(new ChangeDimensionC2SPacket());
+                }
+                ci.cancel();
+            }
+        } else if (key == KeyBindings.GLFW_KEY_F2 && action == GLFW.GLFW_PRESS) {
+            boolean cHeld = GLFW.glfwGetKey(window, KeyBindings.COMMAND_KEY) == GLFW.GLFW_PRESS;
+            if (cHeld) {
+                // ADD HERE
+                Minecraft mc = Minecraft.getInstance();
+                if (mc.player != null) {
+                    mc.player.sendSystemMessage(Component.literal("C + F2"));
+                    PacketDistributor.sendToServer(new ChangeDimension2C2SPacket());
                 }
                 ci.cancel();
             }

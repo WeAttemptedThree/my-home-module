@@ -1,0 +1,29 @@
+{
+  "type": "myhomemodule:myhome_type",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "myhomemodule:myhomebiome",
+      "lakes": false,
+      "features": false,
+      "layers": [
+        {
+          "height": 1,
+          "block": "minecraft:bedrock"
+        },
+        {
+          "height": 10,
+          "block": "minecraft:stone"
+        },
+        {
+          "height": 4,
+          "block": "minecraft:coarse_dirt"
+        },
+        {
+          "height": 1,
+          "block": "minecraft:grass_block"
+        }
+      ]
+    }
+  }
+}
