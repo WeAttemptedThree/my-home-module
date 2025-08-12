@@ -1,7 +1,7 @@
 package net.jwn.myhomemodule.mixins;
 
-import net.jwn.myhomemodule.networking.packets.ChangeDimension2C2SPacket;
-import net.jwn.myhomemodule.networking.packets.ChangeDimensionC2SPacket;
+import net.jwn.myhomemodule.networking.packets.ComeBackC2SPacket;
+import net.jwn.myhomemodule.networking.packets.GoHomeC2SPacket;
 import net.jwn.myhomemodule.util.KeyBindings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -22,8 +22,8 @@ public class KeyboardHandlerMixin {
                 // ADD HERE
                 Minecraft mc = Minecraft.getInstance();
                 if (mc.player != null) {
-                    mc.player.sendSystemMessage(Component.literal("C + F1"));
-                    PacketDistributor.sendToServer(new ChangeDimensionC2SPacket());
+                    mc.player.sendSystemMessage(Component.literal("C + F1 was pressed."));
+                    PacketDistributor.sendToServer(new GoHomeC2SPacket());
                 }
                 ci.cancel();
             }
@@ -33,8 +33,8 @@ public class KeyboardHandlerMixin {
                 // ADD HERE
                 Minecraft mc = Minecraft.getInstance();
                 if (mc.player != null) {
-                    mc.player.sendSystemMessage(Component.literal("C + F2"));
-                    PacketDistributor.sendToServer(new ChangeDimension2C2SPacket());
+                    mc.player.sendSystemMessage(Component.literal("C + F2 was pressed."));
+                    PacketDistributor.sendToServer(new ComeBackC2SPacket());
                 }
                 ci.cancel();
             }

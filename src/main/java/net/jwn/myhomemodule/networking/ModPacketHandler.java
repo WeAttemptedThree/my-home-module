@@ -1,7 +1,7 @@
 package net.jwn.myhomemodule.networking;
 
-import net.jwn.myhomemodule.networking.packets.ChangeDimension2C2SPacket;
-import net.jwn.myhomemodule.networking.packets.ChangeDimensionC2SPacket;
+import net.jwn.myhomemodule.networking.packets.ComeBackC2SPacket;
+import net.jwn.myhomemodule.networking.packets.GoHomeC2SPacket;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -16,7 +16,7 @@ public class ModPacketHandler {
         PayloadRegistrar registrar = event.registrar(PROTOCOL_VERSION);
         // ADD HERE
 
-        registrar.playToServer(ChangeDimensionC2SPacket.TYPE, ChangeDimensionC2SPacket.STREAM_CODEC, ChangeDimensionC2SPacket::handle);
-        registrar.playToServer(ChangeDimension2C2SPacket.TYPE, ChangeDimension2C2SPacket.STREAM_CODEC, ChangeDimension2C2SPacket::handle);
+        registrar.playToServer(GoHomeC2SPacket.TYPE, GoHomeC2SPacket.STREAM_CODEC, GoHomeC2SPacket::handle);
+        registrar.playToServer(ComeBackC2SPacket.TYPE, ComeBackC2SPacket.STREAM_CODEC, ComeBackC2SPacket::handle);
     }
 }

@@ -13,9 +13,9 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
-@Mod(MyHomeModule.MODID)
+@Mod(MyHomeModule.MOD_ID)
 public class MyHomeModule {
-    public static final String MODID = "myhomemodule";
+    public static final String MOD_ID = "myhome_module";
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public MyHomeModule(IEventBus modEventBus, ModContainer modContainer) {

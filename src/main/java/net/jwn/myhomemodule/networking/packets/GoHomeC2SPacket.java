@@ -1,6 +1,7 @@
 package net.jwn.myhomemodule.networking.packets;
 
 import io.netty.buffer.ByteBuf;
+import net.jwn.myhomemodule.MyHomeModule;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -14,25 +15,30 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public record ChangeDimension2C2SPacket() implements CustomPacketPayload {
-    public static final Type<ChangeDimension2C2SPacket> TYPE
-            = new Type<>(ResourceLocation.fromNamespaceAndPath("myhomemodule", "change_dim_2"));
-    public static final StreamCodec<ByteBuf, ChangeDimension2C2SPacket> STREAM_CODEC
-            = StreamCodec.unit(new ChangeDimension2C2SPacket());
+public record GoHomeC2SPacket() implements CustomPacketPayload {
+    public static final Type<GoHomeC2SPacket> TYPE
+            = new Type<>(ResourceLocation.fromNamespaceAndPath(MyHomeModule.MOD_ID, "change_dim"));
+    public static final StreamCodec<ByteBuf, GoHomeC2SPacket> STREAM_CODEC
+            = StreamCodec.unit(new GoHomeC2SPacket());
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 
-    public static void handle(ChangeDimension2C2SPacket packet, IPayloadContext context) {
+    public static void handle(GoHomeC2SPacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (context.player() instanceof ServerPlayer player) {
                 // ADD HERE
-                MinecraftServer server = player.getServer();
-                ServerLevel netherLevel = server.getLevel(Level.OVERWORLD); // 네더 차원
+                ResourceKey<Level> MY_HOME = ResourceKey.create(
+                        ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("minecraft", "dimension")),
+                        ResourceLocation.fromNamespaceAndPath(MyHomeModule.MOD_ID, "myhome")
+                );
 
-                Vec3 targetPos = new Vec3(0, -60, 0); // 이동할 위치
+                MinecraftServer server = player.getServer();
+                ServerLevel myHome = server.getLevel(MY_HOME);
+
+                Vec3 targetPos = new Vec3(0, 0, 0); // 이동할 위치
                 Vec3 speed = Vec3.ZERO; // 이동 시 속도
                 float yaw = 0F;
                 float pitch = 0F;
@@ -43,7 +49,7 @@ public record ChangeDimension2C2SPacket() implements CustomPacketPayload {
                 };
 
                 DimensionTransition transition = new DimensionTransition(
-                        netherLevel, targetPos, speed, yaw, pitch, missingRespawnBlock, callback
+                        myHome, targetPos, speed, yaw, pitch, missingRespawnBlock, callback
                 );
 
                 player.changeDimension(transition);
